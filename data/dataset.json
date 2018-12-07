@@ -1,0 +1,19 @@
+[
+	{
+		"example": "alínea b do inciso I do art . 276 do Código Eleitoral",
+		"target": {
+			"lei": "código eleitoral",
+			"artigos": [
+				{
+					"id": "276",
+					"incisos": [
+						{
+							"id": "i",
+							"alineas": ["b"]
+						}
+					]
+				}
+			]			
+		}
+	}
+]
