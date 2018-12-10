@@ -15,5 +15,290 @@
 				}
 			]			
 		}
+	},
+
+	{
+		"example": "art . 36-A , V da Lei das Eleições",
+		"target": {
+			"lei": "lei das eleições",
+			"artigos": [
+				{
+					"id": "36-a",
+					 "incisos": [
+					 	{
+					 		"id": "v"
+					 	}
+					 ]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "INCISO V DO ART . 36-A DA LEI 9.504/97 .",
+		"target": {
+			"lei": "lei 9.504/97",
+			"artigos": [
+				{
+					"id": "36-a",
+					"incisos": [
+						{
+							"id": "v"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 36-A , V da Lei n° 9.504/97",
+		"target": {
+			"lei": "lei n° 9.504/97",
+			"artigos": [
+				{
+					"id": "36-a",
+					"incisos": [
+						{
+							"id": "v"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "inciso V do art . 36-A da Lei n° 9.504/97",
+		"target": {
+			"lei": "lei n° 9.504/97",
+			"artigos": [
+				{
+					"id": "36-a",
+					"incisos": [
+						{
+							"id": "v"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "Lei n° 13.165/15",
+		"target": {
+			"lei": "lei n° 13.165/15"
+		}
+	},
+
+	{
+		"example": "ARTIGO 477 , § 8.º , DA CLT",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "477",
+					"paragrafos": [
+						{
+							"id": "8"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "artigo 4.º da multicitada Lei n.º 3.207",
+		"target": {
+			"lei": "lei n.º 3.207",
+			"artigos": [
+				{
+					"id": "4"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "artigo 818 da CLT",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "818"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "Lei n.º 3.207 de 18-07-1957",
+		"target": {
+			"lei": "lei n.º 3.207 de 18-07-1957"
+		}
+	},
+
+	{
+		"example": "parágrafo 6.º do artigo 477 da CLT",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "477",
+					"paragrafos": [
+						{
+							"id": "6"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "artigo 9.º da CLT",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "9"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "ARTIGO 477 , § 8.º , DA CLT .",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "477",
+					"paragrafos": [
+						{
+							"id": "8"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "artigo 477 da CLT",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "477"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "artigo 333 , I , do CPC .",
+		"target": {
+			"lei": "cpc",
+			"artigos": [
+				{
+					"id": "333",
+					"incisos": [
+						{
+							"id": "i"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "artigo 82 , II , da Resolução Administrativa n.° 127/2002 .",
+		"target": {
+			"lei": "resolução administrativa n.° 127/2002",
+			"artigos": [
+				{
+					"id": "82",
+					"incisos": [
+						{
+							"id": "ii"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 27 da Res.-TSE 23.465",
+		"target": {
+			"lei": "res.-tse 23.465",
+			"artigos": [
+				{
+					"id": "27"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "RES.-TSE 23.465 .",
+		"target": {
+			"lei": "res.-tse 23.465"
+		}
+	},
+
+	{
+		"example": "inciso II do art . 73 do Estatuto Partidário",
+		"target": {
+			"lei": "estatuto partidário",
+			"artigos": [
+				{
+					"id": "73",
+					"incisos": [
+						{
+							"id": "ii"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 76 , VI , do Estatuto do PMDB",
+		"target": {
+			"lei": "estatuto do pmdb",
+			"artigos": [
+				{
+					"id": "76",
+					"incisos": [
+						{
+							"id": "vi"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 202 , § 2º , da CF .",
+		"target": {
+			"lei": "cf",
+			"artigos": [
+				{
+					"id": "202",
+					"paragrafos": [
+						{
+							"id": "2"
+						}
+					]
+				}
+			]
+		}
 	}
 ]
