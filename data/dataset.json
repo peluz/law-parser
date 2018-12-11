@@ -112,7 +112,7 @@
 	{
 		"example": "artigo 4.º da multicitada Lei n.º 3.207",
 		"target": {
-			"lei": "lei n.º 3.207",
+			"lei": "lei n 3.207",
 			"artigos": [
 				{
 					"id": "4"
@@ -136,7 +136,7 @@
 	{
 		"example": "Lei n.º 3.207 de 18-07-1957",
 		"target": {
-			"lei": "lei n.º 3.207 de 18-07-1957"
+			"lei": "lei n 3.207 de 18-07-1957"
 		}
 	},
 
@@ -295,6 +295,319 @@
 					"paragrafos": [
 						{
 							"id": "2"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "195 , § 5º , da CF .",
+		"target": {
+			"lei": "cf",
+			"artigos": [
+				{
+					"id": "195",
+					"paragrafos": [
+						{
+							"id": "5"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "arts . 840 e 841 do Código Civil",
+		"target": {
+			"lei": "código civil",
+			"artigos": [
+				{
+					"id": "840"
+				},
+				{
+					"id": "841"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 6º , § 3º , da Lei Complementar nº 108/01",
+		"target": {
+			"lei": "lei complementar n 108/01",
+			"artigos": [
+				{
+					"id": "6",
+					"paragrafos": [
+						{
+							"id": "3"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "arts . 114 do Código Civil",
+		"target": {
+			"lei": "código civil",
+			"artigos": [
+				{
+					"id": "114"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "5º , XXXVI , da Constituição Federal",
+		"target": {
+			"lei": "constituição federal",
+			"artigos": [
+				{
+					"id": "5",
+					"incisos": [
+						{
+							"id": "xxxvi"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 849 do Código Civil",
+		"target": {
+			"lei": "código civil",
+			"artigos": [
+				{
+					"id": "849"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "MP 2.200-2/2001",
+		"target": {
+			"lei": "mp 2.200-2/2001"
+		}
+	},
+
+	{
+		"example": "Lei Complementar n . 109/2001",
+		"target": {
+			"lei": "lei complementar n 109/2001"
+		}
+	},
+
+	{
+		"example": "1º e 13 da Lei Complementar nº 109/2001 .",
+		"target": {
+			"lei": "lei complementar n 109/2001",
+			"artigos": [
+				{
+					"id": "1"
+				},
+				{
+					"id": "13"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "arts . 6º da Lei Complementar nº 108/01",
+		"target": {
+			"lei": "lei complementar n 108/01",
+			"artigos": [
+				{
+					"id": "6"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "Emenda Constitucional nº 20/98",
+		"target": {
+			"lei": "emenda constitucional n 20/98"
+		}
+	},
+
+	{
+		"example": "artigo 202 , § 2º , da CF/88 .",
+		"target": {
+			"lei": "cf/88",
+			"artigos": [
+				{
+					"id": "202",
+					"paragrafos": [
+						{
+							"id": "2"
+						}
+					]
+				}
+			]
+		}
+	},
+
+
+	{
+		"example": "arts . 114 e 202 , § 2º , da Constituição Federal",
+		"target": {
+			"lei": "constituição federal",
+			"artigos": [
+				{
+					"id": "114"
+				},
+				{
+					"id": "202",
+					"paragrafos": [
+						{
+							"id": "2"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "§ 2º do art . 202 da Constituição Federal",
+		"target": {
+			"lei": "constituição federal",
+			"artigos": [
+				{
+					"id": "202",
+					"paragrafos": [
+						{
+							"id": "2"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "Lei n . 5.584/70",
+		"target": {
+			"lei": "lei n 5.584/70"
+		}
+	},
+
+	{
+
+		"example": "art . 114 da Carta Magna",
+		"target": {
+			"lei": "carta magna",
+			"artigos": [
+				{
+					"id": "114"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "arts . 840 e 841 do CC .",
+		"target": {
+			"lei": "cc",
+			"artigos": [
+				{
+					"id": "840"
+				},
+				{
+					"id": "841"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 83 do Regimento Interno do Tribunal Superior do Trabalho .",
+		"target": {
+			"lei": "regimento interno do tribunal superior do trabalho",
+			"artigos": [
+				{
+					"id": "83"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "Lei 1.060/50 .",
+		"target": {
+			"lei": "lei 1.060/50"
+		}
+	},
+
+	{
+		"example": "Constituição Federal de 1988",
+		"target": {
+			"lei": "constituição federal de 1988"
+		}
+	},
+
+	{
+		"example": "arts . 82 e 83 do Regulamento do Plano de Benefícios REG/REPLAN",
+		"target": {
+			"lei": "regulamento do plano de benefícios reg/replan",
+			"artigos": [
+				{
+					"id": "82"
+				},
+
+				{
+					"id": "83"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "6º da LICC",
+		"target": {
+			"lei": "licc",
+			"artigos": [
+				{
+					"id": "6"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 896 , `` a '' , da CLT",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "896",
+					"alineas": ["a"]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "artigo 105 , I , d , da CF/88 .",
+		"target": {
+			"lei": "cf/88",
+			"artigos": [
+				{
+					"id": "105",
+					"incisos": [
+						{
+							"id": "i",
+							"alineas": ["d"]
 						}
 					]
 				}
