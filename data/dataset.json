@@ -613,5 +613,60 @@
 				}
 			]
 		}
+	},
+
+	{
+		"example": "artigos 4º e 8º do Decreto n . 81.420/78 .",
+		"target": {
+			"lei": "decreto n 81.420/78",
+			"artigos": [
+				{
+					"id": "4"
+				},
+				{
+					"id": "8"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "6º da LICC",
+		"target": {
+			"lei": "licc",
+			"artigos": [
+				{
+					"id": "6"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 155 , §4º , II e IV c/c art . 288 , ambos do CPB .",
+		"target": {
+			"lei": "cpb",
+			"artigos": [
+				{
+					"id": "155",
+					"paragrafos": [
+						{
+							"id": "4"
+						}
+					],
+					"incisos": [
+						{
+							"id": "ii"
+						},
+						{
+							"id": "iv"
+						}
+					]
+				},
+				{
+					"id": "288"
+				}
+			]
+		}
 	}
 ]

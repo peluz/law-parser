@@ -13,7 +13,7 @@ class TestParser(unittest.TestCase):
 
     def test_law_parser(self):
         for example in self.data:
-            self.assertEqual(example["target"],
+            self.assertDictEqual(example["target"],
                              self.parser.parse(example["example"]))
 
 

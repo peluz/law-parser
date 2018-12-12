@@ -6,8 +6,11 @@ import string
 
 class Parser(object):
     def preprocess(self, citation):
+        citation = re.sub(r"c\/c", "e", citation)
+        citation = re.sub(r"§", "§ ", citation)
         tokens = tokenize.word_tokenize(citation, language="portuguese")
-        return [x.lower().rstrip(".º") for x in tokens if x not in string.punctuation]
+        tokens = [x.rstrip(".º") for x in tokens if x not in string.punctuation]
+        return tokens
 
     def setCitation(self, citation):
         self.citation = self.preprocess(citation)
@@ -68,14 +71,19 @@ class Parser(object):
             self.lawObject["artigos"][-1]["paragrafos"].append(self.paragrafos)
             self.paragrafos = []
         if self.alineas:
-            self.lawObject["artigos"][-1]["alineas"] = self.alineas
+            if "incisos" in self.lawObject["artigos"][-1]:
+                self.lawObject["artigos"][-1]["incisos"][-1]["alineas"] = self.alineas
+            else:
+                self.lawObject["artigos"][-1]["alineas"] = self.alineas
 
     def isRomanNumeral(self, token):
-        return not set(token.upper()).difference('MDCLXVI')
+        return not set(token).difference('LXVI')
 
     def isLaw(self, token):
+        token = token.lower()
         if token in ["lei", "código", "estatuto", "constituição", "mp",
-                     "medida", "emenda", "carta", "regimento", "regulamento"]:
+                     "medida", "emenda", "carta", "regimento", "regulamento",
+                     "decreto"]:
             return True
         elif token.startswith("res") or token.startswith("cf") or (token[0] in ["c", "l"] and len(token) < 5):
             return True
@@ -83,38 +91,42 @@ class Parser(object):
             return False
 
     def identifyTokenType(self, token):
-        if token in ["alínea", "``"]:
-            return "ALINEA"
-        elif self.isLaw(token):
-            return "LEI"
-        elif token == "inciso" or self.isRomanNumeral(token):
+        lower_token = token.lower()
+        if lower_token == "inciso" or self.isRomanNumeral(token):
             return "INCISO"
-        elif token in ["artigo", "art", "arts"] or token.isdigit():
+        elif self.isLaw(lower_token):
+            return "LEI"
+        elif lower_token in ["artigo", "art", "arts"] or token.isdigit():
             return "ARTIGO"
-        elif token in ["§", "parágrafo"]:
+        elif lower_token in ["§", "parágrafo"]:
             return "PARAGRAFO"
+        elif (lower_token in ["alínea", "``"] or
+             (len(lower_token) == 1 and not lower_token.isdigit() and
+              lower_token != "e")):
+            return "ALINEA"
         else:
             return "DONT_CARE"
 
     def processAlinea(self):
-        self.updateToken()
-        self.alineas.append(self.getCurrentToken())
+        if self.getCurrentToken().lower() in ["alínea", "``"]:
+            self.updateToken()
+        self.alineas.append(self.getCurrentToken().lower())
 
     def processInciso(self):
         if not self.isRomanNumeral(self.getCurrentToken()):
             self.updateToken()
-        self.incisos = {"id": self.getCurrentToken()}
+        self.incisos = {"id": self.getCurrentToken().lower()}
         if self.alineas:
             self.incisos["alineas"] = self.alineas
             self.alineas = []
 
     def processArtigo(self):
         plural = False
-        if self.getCurrentToken() == "arts":
+        if self.getCurrentToken().lower() == "arts":
             plural = True
         if not self.getCurrentToken().isdigit():
             self.updateToken()
-        artigo = {"id": self.getCurrentToken().rstrip(".º")}
+        artigo = {"id": self.getCurrentToken().lower()}
         if self.incisos:
             if "incisos" not in artigo:
                 artigo["incisos"] = []
@@ -143,12 +155,12 @@ class Parser(object):
 
 
     def processLei(self):
-        lei = [self.getCurrentToken()]
+        lei = [self.getCurrentToken().lower()]
         while self.updateToken():
-            lei.append(self.getCurrentToken())
+            lei.append(self.getCurrentToken().lower())
         lei = " ".join(lei)
         self.lawObject["lei"] = lei
 
     def processParagrafo(self):
         self.updateToken()
-        self.paragrafos = {"id": self.getCurrentToken().rstrip(".º")}
+        self.paragrafos = {"id": self.getCurrentToken().lower()}
