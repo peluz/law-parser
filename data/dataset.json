@@ -54,7 +54,7 @@
 	{
 		"example": "art . 36-A , V da Lei n° 9.504/97",
 		"target": {
-			"lei": "lei n° 9.504/97",
+			"lei": "lei n 9.504/97",
 			"artigos": [
 				{
 					"id": "36-a",
@@ -71,7 +71,7 @@
 	{
 		"example": "inciso V do art . 36-A da Lei n° 9.504/97",
 		"target": {
-			"lei": "lei n° 9.504/97",
+			"lei": "lei n 9.504/97",
 			"artigos": [
 				{
 					"id": "36-a",
@@ -88,7 +88,7 @@
 	{
 		"example": "Lei n° 13.165/15",
 		"target": {
-			"lei": "lei n° 13.165/15"
+			"lei": "lei n 13.165/15"
 		}
 	},
 
@@ -218,7 +218,7 @@
 	{
 		"example": "artigo 82 , II , da Resolução Administrativa n.° 127/2002 .",
 		"target": {
-			"lei": "resolução administrativa n.° 127/2002",
+			"lei": "resolução administrativa n 127/2002",
 			"artigos": [
 				{
 					"id": "82",
@@ -665,6 +665,166 @@
 				},
 				{
 					"id": "288"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 312 , p.ún . do CPP",
+		"target": {
+			"lei": "cpp",
+			"artigos": [
+				{
+					"id": "312",
+					"paragrafos": [
+						{
+							"id": "único"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "ART . 155 , §4º INCISOS II E IV C/C ART . 288 DO CPB",
+		"target": {
+			"lei": "cpb",
+			"artigos": [
+				{
+					"id": "155",
+					"paragrafos": [
+						{
+							"id": "4"
+						}
+					],
+					"incisos": [
+						{
+							"id": "ii"
+						},
+						{
+							"id": "iv"
+						}
+					]
+				},
+				{
+					"id": "288"
+				}
+			]
+		}
+	},
+	{
+		"example": "art . 461 do RITJMG",
+		"target": {
+			"lei": "ritjmg",
+			"artigos": [
+				{
+					"id": "461"
+				}
+			]
+		}
+	},
+	{
+		"example": "art . 312 , p.u do CPP",
+		"target": {
+			"lei": "cpp",
+			"artigos": [
+				{
+					"id": "312",
+					"paragrafos": [
+						{
+							"id": "único"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "art . 317 e seguintes do CPP",
+		"target": {
+			"lei": "cpp",
+			"artigos": [
+				{
+					"id": "317"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 5º da Lei n . 9.296/1996",
+		"target": {
+			"lei": "lei n 9.296/1996",
+			"artigos": [
+				{
+					"id": "5"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 255 , §§ 1º e 2º , do RISTJ .",
+		"target": {
+			"lei": "ristj",
+			"artigos": [
+				{
+					"id": "255",
+					"paragrafos": [
+						{
+							"id": "1"
+						},
+						{
+							"id": "2"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "arts . 3° , 69 , I , IV , V e VI , 74 , 75 , 76 , II , e 79 , todos do Código de Processo Penal",
+		"target": {
+			"lei": "código de processo penal",
+			"artigos": [
+				{
+					"id": "3"
+				},
+				{
+					"id": "69",
+					"incisos": [
+						{
+							"id": "i"
+						},
+						{
+							"id": "iv"
+						},
+						{
+							"id": "v"
+						},
+						{
+							"id": "vi"
+						}
+					]
+				},
+				{
+					"id": "74"
+				},
+				{
+					"id": "75"
+				},
+				{
+					"id": "76",
+					"incisos": [
+						{
+							"id": "ii"
+						}
+					]
+				},
+				{
+					"id": "79"
 				}
 			]
 		}

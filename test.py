@@ -15,6 +15,7 @@ class TestParser(unittest.TestCase):
         for example in self.data:
             self.assertDictEqual(example["target"],
                              self.parser.parse(example["example"]))
+        print("{} examples correct".format(len(self.data)))
 
 
 if __name__ == '__main__':

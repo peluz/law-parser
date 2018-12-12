@@ -6,10 +6,11 @@ import string
 
 class Parser(object):
     def preprocess(self, citation):
-        citation = re.sub(r"c\/c", "e", citation)
-        citation = re.sub(r"§", "§ ", citation)
+        citation = re.sub(r"c\/c", "e", citation, flags=re.I)
+        citation = re.sub(r"§(?!§)", "§ ", citation)
+        citation = re.sub(r"p[\.]?[úu]n?", "§ único", citation)
         tokens = tokenize.word_tokenize(citation, language="portuguese")
-        tokens = [x.rstrip(".º") for x in tokens if x not in string.punctuation]
+        tokens = [x.rstrip(".º°") for x in tokens if x not in string.punctuation]
         return tokens
 
     def setCitation(self, citation):
@@ -85,20 +86,22 @@ class Parser(object):
                      "medida", "emenda", "carta", "regimento", "regulamento",
                      "decreto"]:
             return True
-        elif token.startswith("res") or token.startswith("cf") or (token[0] in ["c", "l"] and len(token) < 5):
+        elif (token.startswith("res") or token.startswith("cf") or
+             token.startswith("ri") or
+             (token[0] in ["c", "l"] and len(token) < 5)):
             return True
         else:
             return False
 
     def identifyTokenType(self, token):
         lower_token = token.lower()
-        if lower_token == "inciso" or self.isRomanNumeral(token):
+        if lower_token in ["inciso", "incisos"] or self.isRomanNumeral(token):
             return "INCISO"
         elif self.isLaw(lower_token):
             return "LEI"
         elif lower_token in ["artigo", "art", "arts"] or token.isdigit():
             return "ARTIGO"
-        elif lower_token in ["§", "parágrafo"]:
+        elif lower_token in ["§", "parágrafo", "§§"]:
             return "PARAGRAFO"
         elif (lower_token in ["alínea", "``"] or
              (len(lower_token) == 1 and not lower_token.isdigit() and
@@ -124,7 +127,6 @@ class Parser(object):
                 self.lawObject["artigos"][-1]["incisos"] = []
             self.lawObject["artigos"][-1]["incisos"].append(self.incisos)
             self.incisos = None
-
 
     def processArtigo(self):
         plural = False
@@ -167,10 +169,23 @@ class Parser(object):
         self.lawObject["lei"] = lei
 
     def processParagrafo(self):
-        self.updateToken()
+        plural = False
+        if self.getCurrentToken() == "§§":
+            plural = True
+        if not self.getCurrentToken().isdigit():
+            self.updateToken()
         self.paragrafos = {"id": self.getCurrentToken().lower()}
         if "artigos" in self.lawObject:
             if "paragrafos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["paragrafos"] = []
             self.lawObject["artigos"][-1]["paragrafos"].append(self.paragrafos)
             self.paragrafos = None
+        if plural:
+            self.updateToken()
+            while self.identifyTokenType(self.getCurrentToken()) in ["ARTIGO", "DONT_CARE"]:
+                if self.identifyTokenType(self.getCurrentToken()) == "DONT_CARE":
+                    self.updateToken()
+                else:
+                    self.processParagrafo()
+                    self.updateToken()
+            self.processToken()
