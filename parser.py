@@ -18,7 +18,7 @@ class Parser(object):
         self.lawObject = {}
         self.alineas = []
         self.incisos = None
-        self.paragrafos = []
+        self.paragrafos = None
 
     def getCurrentToken(self):
         return self.citation[self.currentTokenIndex]
@@ -64,12 +64,12 @@ class Parser(object):
             if "incisos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["incisos"] = []
             self.lawObject["artigos"][-1]["incisos"].append(self.incisos)
-            self.incisos = []
+            self.incisos = None
         if self.paragrafos:
             if "paragrafos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["paragrafos"] = []
             self.lawObject["artigos"][-1]["paragrafos"].append(self.paragrafos)
-            self.paragrafos = []
+            self.paragrafos = None
         if self.alineas:
             if "incisos" in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["incisos"][-1]["alineas"] = self.alineas
@@ -119,6 +119,12 @@ class Parser(object):
         if self.alineas:
             self.incisos["alineas"] = self.alineas
             self.alineas = []
+        if "artigos" in self.lawObject:
+            if "incisos" not in self.lawObject["artigos"][-1]:
+                self.lawObject["artigos"][-1]["incisos"] = []
+            self.lawObject["artigos"][-1]["incisos"].append(self.incisos)
+            self.incisos = None
+
 
     def processArtigo(self):
         plural = False
@@ -153,7 +159,6 @@ class Parser(object):
                     self.updateToken()
             self.processToken()
 
-
     def processLei(self):
         lei = [self.getCurrentToken().lower()]
         while self.updateToken():
@@ -164,3 +169,8 @@ class Parser(object):
     def processParagrafo(self):
         self.updateToken()
         self.paragrafos = {"id": self.getCurrentToken().lower()}
+        if "artigos" in self.lawObject:
+            if "paragrafos" not in self.lawObject["artigos"][-1]:
+                self.lawObject["artigos"][-1]["paragrafos"] = []
+            self.lawObject["artigos"][-1]["paragrafos"].append(self.paragrafos)
+            self.paragrafos = None
