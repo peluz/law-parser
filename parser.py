@@ -62,6 +62,8 @@ class Parser(object):
         if "artigos" not in self.lawObject:
             if self.citation[0].isdigit():
                 self.lawObject["artigos"] = [{"id": self.citation[0]}]
+            else:
+                return
         if self.incisos:
             if "incisos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["incisos"] = []
@@ -85,7 +87,8 @@ class Parser(object):
         token = token.lower()
         if token in ["lei", "código", "estatuto", "constituição", "mp",
                      "medida", "emenda", "carta", "regimento", "regulamento",
-                     "decreto", "convenção", "decreto-lei", "ncpc"]:
+                     "decreto", "convenção", "decreto-lei", "ncpc",
+                     "provimento", "portaria"]:
             return True
         elif (token.startswith("res") or token.startswith("cf") or
              token.startswith("ri") or

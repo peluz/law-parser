@@ -969,5 +969,19 @@
 				}
 			]
 		}
+	},
+
+	{
+		"example": "Provimento nº 3/2016",
+		"target": {
+			"lei": "provimento n 3/2016"
+		}
+	},
+
+	{
+		"example": "Portaria TCU-232",
+		"target": {
+			"lei": "portaria tcu-232"
+		}
 	}
 ]
