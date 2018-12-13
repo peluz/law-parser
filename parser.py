@@ -8,7 +8,8 @@ class Parser(object):
     def preprocess(self, citation):
         citation = re.sub(r"c\/c", "e", citation, flags=re.I)
         citation = re.sub(r"§(?!§)", "§ ", citation)
-        citation = re.sub(r"p[\.]?[úu]n?", "§ único", citation)
+        citation = re.sub(r"(?<=\s)p[\.]?[úu]n?", "§ único", citation)
+        citation = re.sub(r"“", "``", citation)
         tokens = tokenize.word_tokenize(citation, language="portuguese")
         tokens = [x.rstrip(".º°") for x in tokens if x not in string.punctuation]
         return tokens
@@ -18,8 +19,8 @@ class Parser(object):
         self.currentTokenIndex = -1
         self.lawObject = {}
         self.alineas = []
-        self.incisos = None
-        self.paragrafos = None
+        self.incisos = []
+        self.paragrafos = []
 
     def getCurrentToken(self):
         return self.citation[self.currentTokenIndex]
@@ -64,13 +65,13 @@ class Parser(object):
         if self.incisos:
             if "incisos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["incisos"] = []
-            self.lawObject["artigos"][-1]["incisos"].append(self.incisos)
-            self.incisos = None
+            while self.incisos:
+                self.lawObject["artigos"][-1]["incisos"].append(self.incisos.pop(0))
         if self.paragrafos:
             if "paragrafos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["paragrafos"] = []
-            self.lawObject["artigos"][-1]["paragrafos"].append(self.paragrafos)
-            self.paragrafos = None
+            while self.paragrafos:
+                self.lawObject["artigos"][-1]["paragrafos"].append(self.paragrafos.pop(0))
         if self.alineas:
             if "incisos" in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["incisos"][-1]["alineas"] = self.alineas
@@ -84,7 +85,7 @@ class Parser(object):
         token = token.lower()
         if token in ["lei", "código", "estatuto", "constituição", "mp",
                      "medida", "emenda", "carta", "regimento", "regulamento",
-                     "decreto"]:
+                     "decreto", "convenção", "decreto-lei", "ncpc"]:
             return True
         elif (token.startswith("res") or token.startswith("cf") or
              token.startswith("ri") or
@@ -104,29 +105,29 @@ class Parser(object):
         elif lower_token in ["§", "parágrafo", "§§"]:
             return "PARAGRAFO"
         elif (lower_token in ["alínea", "``"] or
-             (len(lower_token) == 1 and not lower_token.isdigit() and
+             (lower_token in list(string.ascii_lowercase) and
               lower_token != "e")):
             return "ALINEA"
         else:
             return "DONT_CARE"
 
     def processAlinea(self):
-        if self.getCurrentToken().lower() in ["alínea", "``"]:
+        while self.getCurrentToken().lower() in ["alínea", "``"]:
             self.updateToken()
         self.alineas.append(self.getCurrentToken().lower())
 
     def processInciso(self):
         if not self.isRomanNumeral(self.getCurrentToken()):
             self.updateToken()
-        self.incisos = {"id": self.getCurrentToken().lower()}
+        self.incisos.append({"id": self.getCurrentToken().lower()})
         if self.alineas:
-            self.incisos["alineas"] = self.alineas
+            self.incisos[-1]["alineas"] = self.alineas
             self.alineas = []
         if "artigos" in self.lawObject:
             if "incisos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["incisos"] = []
-            self.lawObject["artigos"][-1]["incisos"].append(self.incisos)
-            self.incisos = None
+            while self.incisos:
+                self.lawObject["artigos"][-1]["incisos"].append(self.incisos.pop(0))
 
     def processArtigo(self):
         plural = False
@@ -138,13 +139,14 @@ class Parser(object):
         if self.incisos:
             if "incisos" not in artigo:
                 artigo["incisos"] = []
-            artigo["incisos"].append(self.incisos)
+            while self.incisos:
+                artigo["incisos"].append(self.incisos.pop(0))
             self.incisos = []
         if self.paragrafos:
             if "paragrafos" not in artigo:
                 artigo["paragrafos"] = []
-            artigo["paragrafos"].append(self.paragrafos)
-            self.paragrafos = []
+            while self.paragrafos:
+                artigo["paragrafos"].append(self.paragrafos.pop(0))
         if "artigos" not in self.lawObject:
             self.lawObject["artigos"] = []
         if self.lawObject["artigos"]:
@@ -163,7 +165,9 @@ class Parser(object):
 
     def processLei(self):
         lei = [self.getCurrentToken().lower()]
-        while self.updateToken():
+        while (self.updateToken() and
+               self.getCurrentToken() not in ["art", "artigo",
+                                              "arts", "artigos"]):
             lei.append(self.getCurrentToken().lower())
         lei = " ".join(lei)
         self.lawObject["lei"] = lei
@@ -174,17 +178,19 @@ class Parser(object):
             plural = True
         if not self.getCurrentToken().isdigit():
             self.updateToken()
-        self.paragrafos = {"id": self.getCurrentToken().lower()}
+        self.paragrafos.append({"id": self.getCurrentToken().lower()})
         if "artigos" in self.lawObject:
             if "paragrafos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["paragrafos"] = []
-            self.lawObject["artigos"][-1]["paragrafos"].append(self.paragrafos)
-            self.paragrafos = None
+            while self.paragrafos:
+                self.lawObject["artigos"][-1]["paragrafos"].append(self.paragrafos.pop(0))
         if plural:
             self.updateToken()
             while self.identifyTokenType(self.getCurrentToken()) in ["ARTIGO", "DONT_CARE"]:
                 if self.identifyTokenType(self.getCurrentToken()) == "DONT_CARE":
                     self.updateToken()
+                elif self.getCurrentToken() == "art":
+                    break
                 else:
                     self.processParagrafo()
                     self.updateToken()

@@ -828,5 +828,146 @@
 				}
 			]
 		}
+	},
+
+	{
+		"example": "Constituição Federal ( art . 226 , § 8º",
+		"target": {
+			"lei": "constituição federal",
+			"artigos": [
+				{
+					"id": "226",
+					"paragrafos": [
+						{
+							"id": "8"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "87 do Código de Processo Civil",
+		"target": {
+			"lei": "código de processo civil",
+			"artigos": [
+				{
+					"id": "87"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "alínea “ c ” do art . 105 , III , da Constituição Federal de 1988 .",
+		"target": {
+			"lei": "constituição federal de 1988",
+			"artigos": [
+				{
+					"id": "105",
+					"incisos": [
+						{
+							"id": "iii",
+							"alineas": ["c"]
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "arts . 557 , caput , e § 1º-A , do Código de Processo Civil",
+		"target": {
+			"lei": "código de processo civil",
+			"artigos": [
+				{
+					"id": "557",
+					"paragrafos": [
+						{
+							"id": "1º-a"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 279 do NCPC .",
+		"target": {
+			"lei": "ncpc",
+			"artigos": [
+				{
+					"id": "279"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "art . 1.012 do NCPC .",
+		"target": {
+			"lei": "ncpc",
+			"artigos": [
+				{
+					"id": "1.012"
+				}
+			]
+		}
+	},
+
+	{
+		"example": "caput e nos §§ 5o e 6º do art . 461 da Lei no 5.869",
+		"target": {
+			"lei": "lei no 5.869",
+			"artigos": [
+				{
+					"id": "461",
+					"paragrafos": [
+						{
+							"id": "5o"
+						},
+						{
+							"id": "6"
+						}
+					]
+				}
+			]
+		}
+	},
+
+	{
+		"example": "inciso III do art . 1o , no inciso IV do art . 3o e no inciso IV do art . 221 da Constituição Federal",
+		"target": {
+			"lei": "constituição  federal",
+			"artigos": [
+				{
+					"id": "1o",
+					"incisos": [
+						{
+							"id": "iii"
+						}
+					]
+				},
+				{
+					"id": "3o",
+					"incisos": [
+						{
+							"id": "iv"
+						}
+					]
+				},
+				{
+					"id": "221",
+					"incisos": [
+						{
+							"id": "iv"
+						}
+					]
+				}
+			]
+		}
 	}
 ]
