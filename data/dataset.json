@@ -941,7 +941,7 @@
 	{
 		"example": "inciso III do art . 1o , no inciso IV do art . 3o e no inciso IV do art . 221 da Constituição Federal",
 		"target": {
-			"lei": "constituição  federal",
+			"lei": "constituição federal",
 			"artigos": [
 				{
 					"id": "1o",

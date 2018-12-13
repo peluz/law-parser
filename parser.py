@@ -123,7 +123,7 @@ class Parser(object):
         if self.alineas:
             self.incisos[-1]["alineas"] = self.alineas
             self.alineas = []
-        if "artigos" in self.lawObject:
+        if "artigos" in self.lawObject and self.citation[self.currentTokenIndex + 1] != "do":
             if "incisos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["incisos"] = []
             while self.incisos:
