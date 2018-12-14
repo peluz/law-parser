@@ -10,6 +10,8 @@ class Parser(object):
         citation = re.sub(r"§(?!§)", "§ ", citation)
         citation = re.sub(r"(?<=\s)p[\.]?[úu]n?", "§ único", citation)
         citation = re.sub(r"“", "``", citation)
+        citation = re.sub(r"caput", "", citation)
+        citation = re.sub(r"(?<=\d)\s+a\s+(?=\d)", " RANGE ", citation, flags=re.I)
         tokens = tokenize.word_tokenize(citation, language="portuguese")
         tokens = [x.rstrip(".º°") for x in tokens if x not in string.punctuation]
         return tokens
@@ -138,7 +140,8 @@ class Parser(object):
             plural = True
         if not self.getCurrentToken().isdigit():
             self.updateToken()
-        artigo = {"id": self.getCurrentToken().lower()}
+        currentToken = self.getCurrentToken()
+        artigo = {"id": currentToken.lower()}
         if self.incisos:
             if "incisos" not in artigo:
                 artigo["incisos"] = []
@@ -156,6 +159,16 @@ class Parser(object):
             self.lawObject["artigos"].append(artigo)
         else:
             self.lawObject["artigos"] = [artigo]
+        if self.citation[self.currentTokenIndex + 1] == "RANGE":
+            plural = False
+            begin = currentToken
+            self.updateToken()
+            self.updateToken()
+            end = self.getCurrentToken()
+            if "artigos" not in self.lawObject:
+                self.lawObject = []
+            for i in range(int(begin) + 1, int(end) + 1):
+                self.lawObject["artigos"].append({"id": str(i)})
         if plural:
             self.updateToken()
             while self.identifyTokenType(self.getCurrentToken()) in ["ARTIGO", "DONT_CARE"]:
