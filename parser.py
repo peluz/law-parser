@@ -9,11 +9,11 @@ class Parser(object):
         citation = re.sub(r"c\/c", "e", citation, flags=re.I)
         citation = re.sub(r"§(?!§)", "§ ", citation)
         citation = re.sub(r"(?<=\s)p[\.]?[úu]n?", "§ único", citation)
-        citation = re.sub(r"“", "``", citation)
+        citation = re.sub(r"[“‘]", "``", citation)
         citation = re.sub(r"caput", "", citation)
         citation = re.sub(r"(?<=\d)\s+a\s+(?=\d)", " RANGE ", citation, flags=re.I)
         tokens = tokenize.word_tokenize(citation, language="portuguese")
-        tokens = [x.rstrip(".º°") for x in tokens if x not in string.punctuation]
+        tokens = [x.rstrip(".ºª°") for x in tokens if x not in string.punctuation]
         return tokens
 
     def setCitation(self, citation):
@@ -90,10 +90,11 @@ class Parser(object):
         if token in ["lei", "código", "estatuto", "constituição", "mp",
                      "medida", "emenda", "carta", "regimento", "regulamento",
                      "decreto", "convenção", "decreto-lei", "ncpc",
-                     "provimento", "portaria"]:
+                     "provimento", "portaria", "consolidação", "leis",
+                     "adct", "texto", "lex", "instrução"]:
             return True
         elif (token.startswith("res") or token.startswith("cf") or
-             token.startswith("ri") or
+             token.startswith("ri") or token.startswith("in") or
              (token[0] in ["c", "l"] and len(token) < 5)):
             return True
         else:
@@ -119,7 +120,11 @@ class Parser(object):
     def processAlinea(self):
         while self.getCurrentToken().lower() in ["alínea", "``"]:
             self.updateToken()
-        self.alineas.append(self.getCurrentToken().lower())
+        if "artigos" in self.lawObject and "incisos" in self.lawObject["artigos"][-1]:
+            self.lawObject["artigos"][-1]["incisos"][-1].setdefault("alineas", []).append(self.getCurrentToken().lower())
+        else:
+            self.alineas.append(self.getCurrentToken().lower())
+
 
     def processInciso(self):
         if not self.isRomanNumeral(self.getCurrentToken()):

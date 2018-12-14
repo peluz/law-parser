@@ -1043,5 +1043,86 @@
 				}
 			]
 		}
+	},
+	{
+		"example": "artigo 899 da Consolidação das Leis do Trabalho",
+		"target": {
+			"lei": "consolidação das leis do trabalho",
+			"artigos": [
+				{
+					"id": "899"
+				}
+			]
+		}
+	},
+	{
+		"example": "Texto Constitucional",
+		"target": {
+			"lei": "texto constitucional"
+		}
+	},
+	{
+		"example": "2° , 5° , II , XLVI , alínea 'c ' , 37 , caput e §6° da CF .",
+		"target": {
+			"lei": "cf",
+			"artigos": [
+				{
+					"id": "2"
+				},
+				{
+					"id": "5",
+					"incisos": [
+						{
+							"id": "ii"
+						},
+						{
+							"id": "xlvi",
+							"alineas": ["'c"]
+						}
+					]
+				},
+				{
+					"id": "37",
+					"paragrafos": [
+						{
+							"id": "6"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "§ 1º do art . 2ª da IN 5/2014",
+		"target": {
+			"lei": "in 5/2014",
+			"artigos": [
+				{
+					"id": "2" ,
+					"paragrafos": [
+						{
+							"id": "1"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "art . 214 , inciso III , alínea ‘ a ’ , do Regimento Interno/TCU",
+		"target": {
+			"lei": "regimento interno/tcu",
+			"artigos": [
+				{
+					"id": "214",
+					"incisos": [
+						{
+							"id": "iii",
+							"alineas": ["a"]
+						}
+					]
+				}
+			]
+		}
 	}
 ]
