@@ -10,10 +10,12 @@ class Parser(object):
         citation = re.sub(r"§(?!§)", "§ ", citation)
         citation = re.sub(r"(?<=\s)p[\.]?[úu]n?", "§ único", citation)
         citation = re.sub(r"[“‘]", "``", citation)
-        citation = re.sub(r"caput", "", citation)
+        citation = re.sub(r"(``\s*)*caput", "", citation)
+        citation = re.sub(r"\s*\(\s*s\s*\)", "s", citation)
         citation = re.sub(r"(?<=\d)\s+a\s+(?=\d)", " RANGE ", citation, flags=re.I)
         tokens = tokenize.word_tokenize(citation, language="portuguese")
         tokens = [x.rstrip(".ºª°") for x in tokens if x not in string.punctuation]
+        tokens = list(filter(lambda x: x, tokens))
         return tokens
 
     def setCitation(self, citation):
@@ -36,6 +38,8 @@ class Parser(object):
 
     def processToken(self):
         tokenType = self.identifyTokenType(self.getCurrentToken())
+        print(self.getCurrentToken())
+        print(tokenType)
         if tokenType == "ALINEA":
             self.processAlinea()
         elif tokenType == "INCISO":
@@ -106,13 +110,15 @@ class Parser(object):
             return "INCISO"
         elif self.isLaw(lower_token):
             return "LEI"
-        elif lower_token in ["artigo", "art", "arts"] or token.isdigit():
+        elif (lower_token in ["artigo", "art", "arts", "artigos"] or
+              token.isdigit() or
+              re.search(r"\d+-[a-z]", lower_token) is not None):
             return "ARTIGO"
         elif lower_token in ["§", "parágrafo", "§§"]:
             return "PARAGRAFO"
         elif (lower_token in ["alínea", "``"] or
              (lower_token in list(string.ascii_lowercase) and
-              lower_token != "e")):
+              lower_token not in ["e", "o"])):
             return "ALINEA"
         else:
             return "DONT_CARE"
@@ -129,6 +135,8 @@ class Parser(object):
     def processInciso(self):
         if not self.isRomanNumeral(self.getCurrentToken()):
             self.updateToken()
+        if not self.isRomanNumeral(self.getCurrentToken()):
+            return
         self.incisos.append({"id": self.getCurrentToken().lower()})
         if self.alineas:
             self.incisos[-1]["alineas"] = self.alineas
@@ -141,11 +149,15 @@ class Parser(object):
 
     def processArtigo(self):
         plural = False
-        if self.getCurrentToken().lower() == "arts":
+        currentToken= self.getCurrentToken()
+        if currentToken.lower() == "arts":
             plural = True
-        if not self.getCurrentToken().isdigit():
+        if (not currentToken.isdigit() and
+            re.search(r"\d+-[a-z]", currentToken, flags=re.I) is None):
             self.updateToken()
         currentToken = self.getCurrentToken()
+        if re.search(r"\d", currentToken) is None:
+            return
         artigo = {"id": currentToken.lower()}
         if self.incisos:
             if "incisos" not in artigo:
@@ -200,7 +212,7 @@ class Parser(object):
         if not self.getCurrentToken().isdigit():
             self.updateToken()
         self.paragrafos.append({"id": self.getCurrentToken().lower()})
-        if "artigos" in self.lawObject:
+        if "artigos" in self.lawObject and self.citation[self.currentTokenIndex + 1] != "do":
             if "paragrafos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["paragrafos"] = []
             while self.paragrafos:

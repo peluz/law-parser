@@ -1124,5 +1124,99 @@
 				}
 			]
 		}
+	},
+	{
+		"example": "897-A e parágrafo único , da CLT",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "897-a",
+					"paragrafos": [
+						{
+							"id": "único"
+						}
+					]
+				}
+			]	
+		}
+	},
+	{
+		"example": "artigo ( s ) 71 , § 1º , da Lei 8.666/1993 .",
+		"target": {
+			"lei": "lei 8.666/1993",
+			"artigos": [
+				{
+					"id": "71",
+					"paragrafos": [
+						{
+							"id": "1"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "§§ 10 e 11 do art . 2o da Resolução-TSE n° 23.549",
+		"target": {
+			"lei": "resolução-tse n 23.549",
+			"artigos": [
+				{
+					"id": "2o",
+					"paragrafos": [
+						{
+							"id": "10"
+						},
+						{
+							"id": "11"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "inciso XXXVI do art . 5º quanto o § 5º do art . 195 da Constituição Federal .",
+		"target": {
+			"lei": "constituição federal",
+			"artigos": [
+				{
+					"id": "5",
+					"incisos": [
+						{
+							"id": "xxxvi"
+						}
+					]
+				},
+				{
+					"id": "195",
+					"paragrafos": [
+						{
+							"id": "5"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "artigos 7 º , XI e XXVI , da CF",
+		"target": {
+			"lei": "cf",
+			"artigos": [
+				{
+					"id": "7",
+					"incisos": [
+						{
+							"id": "xi"
+						},
+						{
+							"id": "xxvi"
+						}
+					]
+				}
+			]
+		}
 	}
 ]
