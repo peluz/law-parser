@@ -7,6 +7,7 @@ class TestParser(unittest.TestCase):
     def setUp(self):
         self.data = load_dataset()
         self.parser = Parser()
+        self.maxDiff = None
 
     def test_data_exists(self):
         self.assertIsNotNone(self.data)

@@ -12,7 +12,7 @@ class Parser(object):
         citation = re.sub(r"[“‘]", "``", citation)
         citation = re.sub(r"(``\s*)*caput", "", citation)
         citation = re.sub(r"\s*\(\s*s\s*\)", "s", citation)
-        citation = re.sub(r"(?<=\d)\s+a\s+(?=\d)", " RANGE ", citation, flags=re.I)
+        citation = re.sub(r"(?<=\d.)\s+a\s+(?=\d.)", " RANGE ", citation, flags=re.I)
         tokens = tokenize.word_tokenize(citation, language="portuguese")
         tokens = [x.rstrip(".ºª°") for x in tokens if x not in string.punctuation]
         tokens = list(filter(lambda x: x, tokens))
@@ -95,18 +95,19 @@ class Parser(object):
                      "medida", "emenda", "carta", "regimento", "regulamento",
                      "decreto", "convenção", "decreto-lei", "ncpc",
                      "provimento", "portaria", "consolidação", "leis",
-                     "adct", "texto", "lex", "instrução"]:
+                     "adct", "texto", "lex", "instrução", "ec",
+                     "projeto", "emendas"]:
             return True
         elif (token.startswith("res") or token.startswith("cf") or
              token.startswith("ri") or token.startswith("in") or
-             (token[0] in ["c", "l"] and len(token) < 5)):
+             (token[0] in ["c", "l"] and len(token) < 10)):
             return True
         else:
             return False
 
     def identifyTokenType(self, token):
         lower_token = token.lower()
-        if lower_token in ["inciso", "incisos"] or self.isRomanNumeral(token):
+        if lower_token in ["inciso", "incisos", "inc", "incs"] or self.isRomanNumeral(token):
             return "INCISO"
         elif self.isLaw(lower_token):
             return "LEI"
@@ -183,7 +184,7 @@ class Parser(object):
             self.updateToken()
             end = self.getCurrentToken()
             if "artigos" not in self.lawObject:
-                self.lawObject = []
+                self.lawObject["artigos"] = []
             for i in range(int(begin) + 1, int(end) + 1):
                 self.lawObject["artigos"].append({"id": str(i)})
         if plural:
@@ -199,19 +200,30 @@ class Parser(object):
     def processLei(self):
         lei = [self.getCurrentToken().lower()]
         while (self.updateToken() and
-               self.getCurrentToken() not in ["art", "artigo",
-                                              "arts", "artigos"]):
+               self.getCurrentToken().lower() not in ["art", "artigo",
+                                                      "arts", "artigos",
+                                                      "em"]):
             lei.append(self.getCurrentToken().lower())
         lei = " ".join(lei)
         self.lawObject["lei"] = lei
 
     def processParagrafo(self):
         plural = False
-        if self.getCurrentToken() == "§§":
+        currentToken = self.getCurrentToken()
+        if currentToken == "§§":
             plural = True
-        if not self.getCurrentToken().isdigit():
+        if not currentToken.isdigit():
             self.updateToken()
-        self.paragrafos.append({"id": self.getCurrentToken().lower()})
+        currentToken = self.getCurrentToken()
+        self.paragrafos.append({"id": currentToken.lower()})
+        if self.citation[self.currentTokenIndex + 1] == "RANGE":
+            plural = False
+            begin = re.sub(r"[^\d]+", "", currentToken)
+            self.updateToken()
+            self.updateToken()
+            end = re.sub(r"[^\d]+", "", self.getCurrentToken())
+            for i in range(int(begin) + 1, int(end) + 1):
+                self.paragrafos.append({"id": str(i)})
         if "artigos" in self.lawObject and self.citation[self.currentTokenIndex + 1] != "do":
             if "paragrafos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["paragrafos"] = []
@@ -221,6 +233,11 @@ class Parser(object):
             self.updateToken()
             while self.identifyTokenType(self.getCurrentToken()) in ["ARTIGO", "DONT_CARE"]:
                 if self.identifyTokenType(self.getCurrentToken()) == "DONT_CARE":
+                    if self.getCurrentToken() == "e":
+                        self.updateToken()
+                        self.processParagrafo()
+                        self.updateToken()
+                        break
                     self.updateToken()
                 elif self.getCurrentToken() == "art":
                     break

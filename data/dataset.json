@@ -1218,5 +1218,212 @@
 				}
 			]
 		}
+	},
+	{
+		"example": "Constituição Federal em seus artigos 48 , inciso X , e 61 , II",
+		"target": {
+			"lei": "constituição federal",
+			"artigos": [
+				{
+					"id": "48",
+					"incisos": [
+						{
+							"id": "x"
+						}
+					]
+				},
+				{
+					"id": "61",
+					"incisos": [
+						{
+							"id": "ii"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "artigos 53 , 71 , § 1º , inc. IV , e 100 , inc . VI e X , todos da Lei Orgânica do Distrito Federal .",
+		"target": {
+			"lei": "lei orgânica do distrito federal",
+			"artigos": [
+				{
+					"id": "53"
+				},
+				{
+					"id": "71",
+					"paragrafos": [
+						{
+							"id": "1"
+						}
+					],
+					"incisos": [
+						{
+							"id": "iv"
+						}
+					]
+				},
+				{
+					"id": "100",
+					"incisos": [
+						{
+							"id": "vi"
+						},
+						{
+							"id": "x"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "artigos 105 , 128 , 219 , 265 , IV , “ a ” , 267 , V , 293 , 301 , §§ 1º , 2º e 3º , 460 , e 480 e seguintes do CPC⁄1973",
+		"target": {
+			"lei": "cpc⁄1973",
+			"artigos": [
+				{
+					"id": "105"
+				},
+				{
+					"id": "128"
+				},
+				{
+					"id": "219"
+				},
+				{
+					"id": "265",
+					"incisos": [
+						{
+							"id": "iv",
+							"alineas": ["a"]
+						}
+					]
+				},
+				{
+					"id": "267",
+					"incisos": [
+						{
+							"id": "v"
+						}
+					]
+				},
+				{
+					"id": "293"
+				},
+				{
+					"id": "301",
+					"paragrafos": [
+						{
+							"id": "1"
+						},
+						{
+							"id": "2"
+						},
+						{
+							"id": "3"
+						}
+					]
+				},
+				{
+					"id": "460"
+				},
+				{
+					"id": "480"
+				}
+			]
+		}
+	},
+	{
+		"example": "artigos 128 , 459 , 460 , 265 , IV , “ a ” , 293 , 295 , I e parágrafo único , III , 219 , 267 , V e VI , 301 , §§ 1º a 3º , 480 e 535 do CPC⁄1973",
+		"target": 
+		{
+			"lei": "cpc⁄1973",
+			"artigos": [
+				{
+					"id": "128"
+				},
+				{
+					"id": "459"
+				},
+				{
+					"id": "460"
+				},
+				{
+					"id": "265",
+					"incisos": [
+						{
+							"id": "iv",
+							"alineas": ["a"]
+						}
+					]
+				},
+				{
+					"id": "293"
+				},
+				{
+					"id": "295",
+					"incisos": [
+						{
+							"id": "i"
+						},
+						{
+							"id": "iii"
+						}
+					],
+					"paragrafos": [
+						{
+							"id": "único"
+						}
+					]
+				},
+				{
+					"id": "219"
+				},
+				{
+					"id": "267",
+					"incisos": [
+						{
+							"id": "v"
+						},
+						{
+							"id": "vi"
+						}
+					]
+				},
+				{
+					"id": "301",
+					"paragrafos": [
+						{
+							"id": "1"
+						},
+						{
+							"id": "2"
+						},
+						{
+							"id": "3"
+						}
+					]
+				},
+				{
+					"id": "480"
+				},
+				{
+					"id": "535"
+				}
+			]
+		}
+	},
+	{
+		"example": "CPM , ART . 187",
+		"target": {
+			"lei": "cpm",
+			"artigos": [
+				{
+					"id": "187"
+				}
+			]
+		}
 	}
 ]
