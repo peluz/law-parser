@@ -1425,5 +1425,84 @@
 				}
 			]
 		}
+	},
+	{
+		"example": "1.022 do CPC/15",
+		"target": {
+			"lei": "cpc/15",
+			"artigos": [
+				{
+					"id": "1.022"
+				}
+			]
+		}
+	},
+	{
+		"example": "artigo 195 , I , -a- , da CF",
+		"target": {
+			"lei": "cf",
+			"artigos": [
+				{
+					"id": "195",
+					"incisos": [
+						{
+							"id": "i",
+							"alineas": ["a"]
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "§ 4o do art . 7o ; caput do art . 8o ; e §§ 1o e 2º do art . 65 da Lei nº 8.666/93",
+		"target": {
+			"lei": "lei n 8.666/93",
+			"artigos": [
+				{
+					"id": "7o",
+					"paragrafos": [
+						{
+							"id": "4o"
+						}
+					]
+				},
+				{
+					"id": "8o"
+				},
+				{
+					"id": "65",
+					"paragrafos": [
+						{
+							"id": "1o"
+						},
+						{
+							"id": "2"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "CLT , 896 , §1.º-A , I",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "896",
+					"incisos": [
+						{
+							"id": "i"
+						}
+					],
+					"paragrafos": [
+						{
+							"id": "1.º-a"
+						}
+					]
+				}
+			]
+		}
 	}
 ]
