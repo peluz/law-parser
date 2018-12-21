@@ -9,12 +9,14 @@ class Parser(object):
         citation = re.sub(r"c\/c", "e", citation, flags=re.I)
         citation = re.sub(r"§(?!§)", "§ ", citation)
         citation = re.sub(r"(?<=\s)p[\.]?[úu]n?", "§ único", citation)
-        citation = re.sub(r"[“‘]", "``", citation)
+        citation = re.sub(r"(?<=' )", ",", citation, flags=re.I)
+        citation = re.sub(r"[“‘']", "`` ", citation)
         citation = re.sub(r"(``\s*)*caput", "", citation)
         citation = re.sub(r"\s*\(\s*s\s*\)", "s", citation)
         citation = re.sub(r"(?<=\d.)\s+a\s+(?=\d.)", " RANGE ", citation, flags=re.I)
         citation = re.sub(r"in fine", "0", citation, flags=re.I)
-        citation = citation.replace("\xad", "")
+        citation = re.sub(r"art(igo)?s?[.](?=\d)", "artigo ", citation, flags=re.I)
+        citation = re.sub(r"(\xad)|(\bou\b)", "", citation, flags=re.I)
         tokens = tokenize.word_tokenize(citation, language="portuguese")
         tokens = [x.rstrip(".ºª°-").lstrip("-") for x in tokens]
         tokens = list(filter(lambda x: x, tokens))
@@ -66,8 +68,8 @@ class Parser(object):
 
     def tieLooseEnds(self):
         if "artigos" not in self.lawObject:
-            if self.isNumber(self.citation[0]):
-                self.lawObject["artigos"] = [{"id": self.citation[0]}]
+            if self.isNumber(self.citation[0].lower()):
+                self.lawObject["artigos"] = [{"id": self.citation[0].lower()}]
             else:
                 return
         if self.incisos:
@@ -96,10 +98,12 @@ class Parser(object):
                      "decreto", "convenção", "decreto-lei", "ncpc",
                      "provimento", "portaria", "consolidação", "leis",
                      "adct", "texto", "lex", "instrução", "ec",
-                     "projeto", "emendas", "despacho"]:
+                     "projeto", "emendas", "despacho", "magna",
+                     "dl", "rlsm", "permissivo", "mpr"]:
             return True
         elif (token.startswith("res") or token.startswith("cf") or
              token.startswith("ri") or token.startswith("in") or
+             token.startswith("ec") or
              (token[0] in ["c", "l"] and len(token) < 10)):
             return True
         else:
@@ -117,7 +121,7 @@ class Parser(object):
             return "ARTIGO"
         elif lower_token in ["§", "parágrafo", "§§"]:
             return "PARAGRAFO"
-        elif (lower_token in ["alínea", "``"] or
+        elif (lower_token in ["alínea", "``", "alíneas"] or
              (lower_token in list(string.ascii_lowercase) and
               lower_token not in ["e", "o"])):
             return "ALINEA"
@@ -125,8 +129,10 @@ class Parser(object):
             return "DONT_CARE"
 
     def processAlinea(self):
-        while self.getCurrentToken().lower() in ["alínea", "``"]:
+        while self.getCurrentToken().lower() in ["alínea", "``", "alíneas"]:
             self.updateToken()
+        if re.search(r"[a-z]", self.getCurrentToken().lower()) is None or len(self.getCurrentToken()) > 1:
+            return
         if "artigos" in self.lawObject and "incisos" in self.lawObject["artigos"][-1]:
             self.lawObject["artigos"][-1]["incisos"][-1].setdefault("alineas", []).append(self.getCurrentToken().lower())
         else:
@@ -153,7 +159,7 @@ class Parser(object):
         currentToken= self.getCurrentToken()
         if currentToken.lower() == "arts":
             plural = True
-        if (not currentToken.isdigit() and
+        if (not self.isNumber(currentToken) and
             re.search(r"\d+-[a-z]", currentToken, flags=re.I) is None):
             self.updateToken()
         currentToken = self.getCurrentToken()
@@ -212,7 +218,7 @@ class Parser(object):
         currentToken = self.getCurrentToken()
         if currentToken == "§§":
             plural = True
-        if not currentToken.isdigit():
+        if not self.isNumber(currentToken):
             self.updateToken()
         currentToken = self.getCurrentToken()
         self.paragrafos.append({"id": currentToken.lower()})
@@ -249,4 +255,4 @@ class Parser(object):
             self.processToken()
 
     def isNumber(self, token):
-        return re.sub(r"[^\d]", "", token).isdigit()
+        return re.sub(r"[^\d\/]", "", token).isdigit()

@@ -1077,7 +1077,7 @@
 						},
 						{
 							"id": "xlvi",
-							"alineas": ["'c"]
+							"alineas": ["c"]
 						}
 					]
 				},
@@ -1501,6 +1501,76 @@
 							"id": "1.º-a"
 						}
 					]
+				}
+			]
+		}
+	},
+	{
+		"example": "ART . 40 , § 4º , III , DA MAGNA CARTA .",
+		"target": {
+			"lei": "magna carta",
+			"artigos": [
+				{
+					"id": "40",
+					"paragrafos": [
+						{
+							"id": "4"
+						}
+					],
+					"incisos": [
+						{
+							"id": "iii"
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		"example": "CPC/1973",
+		"target": {
+			"lei": "cpc/1973"
+		}
+	},
+	{
+		"example": "art . 439 , alíneas 'd ' ou 'e ' , do CPPM",
+		"target": {
+			"lei": "cppm",
+			"artigos": [
+				{
+					"id": "439",
+					"alineas": ["d", "e"]
+				}
+			]
+		}
+	},
+	{
+		"example": "art . 896 , `` a '' e `` c '' , da CLT .",
+		"target": {
+			"lei": "clt",
+			"artigos": [
+				{
+					"id": "896",
+					"alineas": ["a", "c"]
+				}
+			]
+		}
+	},
+	{
+		"example": "489 , § 10 , e 1.022 , do CPC/2015",
+		"target":  {
+			"lei": "cpc/2015",
+			"artigos": [
+				{
+					"id": "489",
+					"paragrafos": [
+						{
+							"id": "10"
+						}
+					]
+				},
+				{
+					"id": "1.022"
 				}
 			]
 		}
