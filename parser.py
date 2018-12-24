@@ -5,8 +5,13 @@ import string
 
 
 class Parser(object):
+    def __init__(self):
+        self.num_map = [(1000, 'M'), (900, 'CM'), (500, 'D'), (400, 'CD'),
+                        (100, 'C'), (90, 'XC'), (50, 'L'), (40, 'XL'),
+                        (10, 'X'), (9, 'IX'), (5, 'V'), (4, 'IV'), (1, 'I')]
+
     def preprocess(self, citation):
-        citation = re.sub(r"c\/c", "e", citation, flags=re.I)
+        citation = re.sub(r"c\s*\/\s*c", "e", citation, flags=re.I)
         citation = re.sub(r"§(?!§)", "§ ", citation)
         citation = re.sub(r"(?<=\s)p[\.]?[úu]n?", "§ único", citation)
         citation = re.sub(r"(?<=' )", ",", citation, flags=re.I)
@@ -14,6 +19,7 @@ class Parser(object):
         citation = re.sub(r"(``\s*)*caput", "", citation)
         citation = re.sub(r"\s*\(\s*s\s*\)", "s", citation)
         citation = re.sub(r"(?<=\d.)\s+a\s+(?=\d.)", " RANGE ", citation, flags=re.I)
+        citation = re.sub(r"(?<=[LXVICMD])\s+a\s+(?=[LXVICMD])", " RANGE ", citation)
         citation = re.sub(r"in fine", "0", citation, flags=re.I)
         citation = re.sub(r"art(igo)?s?[.](?=\d)", "artigo ", citation, flags=re.I)
         citation = re.sub(r"(\xad)|(\bou\b)", "", citation, flags=re.I)
@@ -99,12 +105,12 @@ class Parser(object):
                      "provimento", "portaria", "consolidação", "leis",
                      "adct", "texto", "lex", "instrução", "ec",
                      "projeto", "emendas", "despacho", "magna",
-                     "dl", "rlsm", "permissivo", "mpr"]:
+                     "dl", "rlsm", "permissivo", "mpr", "diploma"]:
             return True
         elif (token.startswith("res") or token.startswith("cf") or
-             token.startswith("ri") or token.startswith("in") or
-             token.startswith("ec") or
-             (token[0] in ["c", "l"] and len(token) < 10)):
+              token.startswith("ri") or token.startswith("in") or
+              token.startswith("ec") or
+              (token[0] in ["c", "l"] and len(token) < 10 and len(token) > 1)):
             return True
         else:
             return False
@@ -135,9 +141,10 @@ class Parser(object):
             return
         if "artigos" in self.lawObject and "incisos" in self.lawObject["artigos"][-1]:
             self.lawObject["artigos"][-1]["incisos"][-1].setdefault("alineas", []).append(self.getCurrentToken().lower())
+        elif "artigos" in self.lawObject and "paragrafos" in self.lawObject["artigos"][-1]:
+            self.lawObject["artigos"][-1]["paragrafos"][-1].setdefault("alineas", []).append(self.getCurrentToken().lower())
         else:
             self.alineas.append(self.getCurrentToken().lower())
-
 
     def processInciso(self):
         if not self.isRomanNumeral(self.getCurrentToken()):
@@ -148,6 +155,13 @@ class Parser(object):
         if self.alineas:
             self.incisos[-1]["alineas"] = self.alineas
             self.alineas = []
+        if self.citation[self.currentTokenIndex + 1] == "RANGE":
+            begin = self.roman2num(self.getCurrentToken())
+            self.updateToken()
+            self.updateToken()
+            end = self.roman2num(self.getCurrentToken())
+            for i in range(begin + 1, end + 1):
+                self.incisos.append({"id": self.num2roman(i)})
         if "artigos" in self.lawObject and self.citation[self.currentTokenIndex + 1] != "do":
             if "incisos" not in self.lawObject["artigos"][-1]:
                 self.lawObject["artigos"][-1]["incisos"] = []
@@ -256,3 +270,32 @@ class Parser(object):
 
     def isNumber(self, token):
         return re.sub(r"[^\d\/]", "", token).isdigit()
+
+    def num2roman(self, num):
+
+        roman = ''
+
+        while num > 0:
+            for i, r in self.num_map:
+                while num >= i:
+                    roman += r
+                    num -= i
+
+        return roman.lower()
+
+    def roman2num(self, roman,
+                  values={'M': 1000, 'D': 500, 'C': 100, 'L': 50,
+                          'X': 10, 'V': 5, 'I': 1}):
+        """Convert from Roman numerals to an integer."""
+        numbers = []
+        for char in roman:
+            numbers.append(values[char])
+        total = 0
+        if len(numbers) == 1:
+            return numbers[0]
+        for num1, num2 in zip(numbers, numbers[1:]):
+            if num1 >= num2:
+                total += num1
+            else:
+                total -= num1
+        return total + num2

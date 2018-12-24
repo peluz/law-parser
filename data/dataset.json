@@ -1574,5 +1574,58 @@
 				}
 			]
 		}
+	},
+	{
+		"example": "374 , I a IV , 489 , § 10 , e 1.022 do CPC/2015",
+		"target": {
+			"lei": "cpc/2015",
+			"artigos": [
+				{
+					"id": "374",
+					"incisos": [
+						{
+							"id": "i"
+						},
+						{
+							"id": "ii"
+						},
+						{
+							"id": "iii"
+						},
+						{
+							"id": "iv"
+						}
+					]
+				},
+				{
+					"id": "489",
+					"paragrafos": [
+						{
+							"id": "10"
+						}
+					]
+				},
+				{
+					"id": "1.022"
+				}
+			]
+		}
+	},
+	{
+		"example": "art . 40 , § 10 , a , b e c , da Resolução-TSE n° 23.376/2012",
+		"target": {
+			"lei": "resolução-tse n 23.376/2012",
+			"artigos": [
+				{
+					"id": "40",
+					"paragrafos": [
+						{
+							"id": "10",
+							"alineas": ["a", "b", "c"]
+						}
+					]
+				}
+			]
+		}
 	}
 ]
